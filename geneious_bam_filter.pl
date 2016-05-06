@@ -30,6 +30,6 @@ while (<I>) {
 		}
 	}
 }
-warn "$out\t$total\t$remain\n";
+warn "$out\t", 1-$remain/$total, " filtered\n";
 close I;
 close O;
