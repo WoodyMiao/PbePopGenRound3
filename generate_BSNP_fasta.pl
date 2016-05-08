@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 die "This program generate fasta using reference and BSNP output.\nAuther: Woody
-Usage: $0 <reference.fa> <SNP.gz> <nSNP> <output.fa.gz> <mean coverage> <1=male|2=female> <A=autosome|X=chrX> <minimum Phred quality>\n" if @ARGV < 8;
+Usage: $0 <reference.fa> <SNP.gz> <nSNP> <output.fa.gz> <autosome mean coverage> <1=male|2=female> <A=autosome|X=chrX> <minimum Phred quality>\n" if @ARGV < 8;
 
 open REF, "<", $ARGV[0];
 open SNP, "-|", "zcat $ARGV[1]";
@@ -12,7 +12,7 @@ open NSN, "<", $ARGV[2];
 open OUT, "|-", "gzip -9c >$ARGV[3]";
 my $maxc = $ARGV[4] * 1.5; # Max coverage
 my $minc = $ARGV[4] * 0.5; # Min coverage
-my $pSNP = 1 - 10^(-$ARGV[7]/10); # Min SNP posterior probability 
+my $pSNP = 1 - 10**(-$ARGV[7]/10); # Min SNP posterior probability 
 my $pNSN = $ARGV[7]/2 + 33; # Min ASCII value of ProbSNP in nSNP file 
 
 my %ref;
