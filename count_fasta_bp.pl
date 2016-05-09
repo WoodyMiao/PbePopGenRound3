@@ -5,9 +5,9 @@ use threads;
 use File::Basename;
 
 my @list;
-open $list[0], "-|", "ls -1 ../a1.gene_masked_fasta/*.fa.gz";
+open $list[0], "-|", "ls -1 ../a2.gene_masked_fasta_v2/*.fa.gz";
 
-open O, ">", "count_gene_masked_fasta.txt";
+open O, ">", "count_gene_masked_fasta_v2.txt";
 
 my %length = (
 	chrA1	=>	240380223,
@@ -131,15 +131,15 @@ sub countfasta {
 			$sum[$n] += $chrcount{$c}[$n];
 		}
 	}
-	$sum[16] = sprintf("%.2f", $sum[14] / $sum[15]);
-	$sum[17] = sprintf("%.2f", (($sum[1] + $sum[2] + $sum[6] + $sum[8]) / 2 + $sum[4] + $sum[5] + $sum[7]) / $sum[14]);
-	$sum[18] = sprintf("%.4f", $sum[12] / $sum[14]);
-	$sum[19] = sprintf("%.4f", $sum[13] / $sum[14]);
+	$sum[16] = sprintf("%.6f", $sum[14] / $sum[15]);
+	$sum[17] = sprintf("%.6f", (($sum[1] + $sum[2] + $sum[6] + $sum[8]) / 2 + $sum[4] + $sum[5] + $sum[7]) / $sum[14]);
+	$sum[18] = sprintf("%.6f", $sum[12] / $sum[14]);
+	$sum[19] = sprintf("%.6f", $sum[13] / $sum[14]);
 	if ($sum[13]) {
-		$sum[20] = sprintf("%.2f", $sum[12] / $sum[13]);
+		$sum[20] = sprintf("%.6f", $sum[12] / $sum[13]);
 	} else {
 		$sum[20] = "N/A";
 	}
-	$sum[21] = sprintf("%.4f", ($sum[12] + $sum[13]) / $sum[14]);;
+	$sum[21] = sprintf("%.6f", ($sum[12] + $sum[13]) / $sum[14]);;
 	return \@sum;
 }
