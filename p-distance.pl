@@ -37,6 +37,8 @@ for my $i1 (0 .. @id-2) {
 		warn "Comparing $id[$i1] and $id[$i2] ...\n";
 		$distance{$pair} = &p_distance($seq{$id[$i1]}, $seq{$id[$i2]});
 	}
+	$seq{$id[$i1]} = "N";
+	warn "Released RAM of $id[$i1].\n";
 }
 warn "Compare sequences complete!\n";
 

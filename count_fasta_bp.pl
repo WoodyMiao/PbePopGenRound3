@@ -5,9 +5,9 @@ use threads;
 use File::Basename;
 
 my @list;
-open $list[0], "-|", "ls -1 ../a2.gene_masked_fasta_v2/*.fa.gz";
+open $list[0], "-|", "ls -1 ../a3.fasta_for_downstream/*.fa.gz";
 
-open O, ">", "count_gene_masked_fasta_v2.txt";
+open O, ">", "count_fasta_for_downstream.txt";
 
 my %length = (
 	chrA1	=>	240380223,
