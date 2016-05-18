@@ -1,30 +1,19 @@
 #!/usr/bin/perl
 use strict;
 use warnings;
-use threads;
-# It seems the filehandles cannot close properly. The serial version (pick_fastq_exact_index_serial.pl) works.
+
 my %input = (
 "PBEP0025", "/bak/archive/projects/LeopardCat/1.raw_fastq/HiSeq2000/PBE084_lane1_1.fq.gz /bak/archive/projects/LeopardCat/1.raw_fastq/HiSeq2000/PBE084_lane2_1.fq.gz /bak/archive/projects/LeopardCat/1.raw_fastq/HiSeq2000/PBE084_lane3_1.fq.gz /bak/archive/projects/LeopardCat/1.raw_fastq/HiSeq2000/PBE084_lane4_1.fq.gz /bak/archive/projects/LeopardCat/1.raw_fastq/HiSeq2000/PBE084_lane6_1.fq.gz /bak/archive/projects/LeopardCat/1.raw_fastq/HiSeq2000/PBE084_lane7_1.fq.gz",
 "PBEP0068", "/bak/archive/projects/LeopardCat/1.raw_fastq/HiSeq2000/PBE144_lane1_1.fq.gz /bak/archive/projects/LeopardCat/1.raw_fastq/HiSeq2000/PBE144_lane2_1.fq.gz /bak/archive/projects/LeopardCat/1.raw_fastq/HiSeq2000/PBE144_lane3_1.fq.gz /bak/archive/projects/LeopardCat/1.raw_fastq/HiSeq2000/PBE144_lane4_1.fq.gz /bak/archive/projects/LeopardCat/1.raw_fastq/HiSeq2000/PBE144_lane6_1.fq.gz",
 "PVIP0012", "/bak/archive/projects/LeopardCat/1.raw_fastq/HiSeq2000/PVI033_lane1_1.fq.gz /bak/archive/projects/LeopardCat/1.raw_fastq/HiSeq2000/PVI033_lane2_1.fq.gz /bak/archive/projects/LeopardCat/1.raw_fastq/HiSeq2000/PVI033_lane3_1.fq.gz /bak/archive/projects/LeopardCat/1.raw_fastq/HiSeq2000/PVI033_lane4_1.fq.gz /bak/archive/projects/LeopardCat/1.raw_fastq/HiSeq2000/PVI033_lane6_1.fq.gz /bak/archive/projects/LeopardCat/1.raw_fastq/HiSeq2000/PVI033_lane7_1.fq.gz");
 my %index = qw/ PBEP0025 GTTTCG PBEP0068 CGTACG PVIP0012 GAGTGG /;
-my %thread;
 for (sort keys %input) {
-	$thread{$_} = threads->new(\&pick_index, ($_, $input{$_}));
-}
-
-for (sort keys %thread) {
-	my $j = $thread{$_}->join;
-	warn "$_: ${$j}[0] pairs of reads picked out of ${$j}[1].\n";
-}
-
-sub pick_index {
-	my ($id, $files) = @_;
+	my $id = $_;
+	my @list = split / /, $input{$_};
 	open my $o1, "|-", "gzip -9c >${id}_$index{$id}_1.fq.gz";
 	open my $o2, "|-", "gzip -9c >${id}_$index{$id}_2.fq.gz";
 	my $picked;
 	my $total;
-	my @list = split / /, $files;
 	for (@list) {
 		open my $i1, "-|", "zcat $_";
 		s/1.fq.gz$//;
@@ -58,7 +47,7 @@ sub pick_index {
 		close $i1;
 		close $i2;
 	}
+	warn "$id: pick $picked read pairs out of $total\n";
 	close $o1;
 	close $o2;
-	return [$picked, $total];
 }
