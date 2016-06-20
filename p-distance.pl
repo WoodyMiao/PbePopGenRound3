@@ -2,7 +2,7 @@
 use strict;
 use warnings;
 
-die "\nThis program calculates p-distance matrix using gzipped fasta files. Auther: Woody\n
+die "\nThis program calculates p-distance (Gronau et al. 2011, S3.2) matrix using gzipped fasta files. Auther: Woody\n
 Usage: $0 <list (column1: sampleID, column2: file)> <output_prefix>\n
 This program reads all files into RAM simultaneously, so make sure there is enough RAM before running.\n\n" if @ARGV < 2;
 
