@@ -105,7 +105,7 @@ for my $j (0 .. @{$ped[0]} - 1) { # SNP (column) index
 
 my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime(time);
 my $now = sprintf("%04d-%02d-%02d %02d:%02d:%02d", $year+1900, $mon+1, $mday, $hour, $min, $sec);
-print SFS "# This SFS was generated from $ARGV[1], by $0, saved at $now.\n\n";
+print SFS "# This SFS was generated from $ARGV[1], by $0, saved at $now.\n";
 print SFS 2*$pop{$_}+1, " " for @ipl;
 print SFS "unfolded";
 print SFS " \"$_\"" for @ipl;
